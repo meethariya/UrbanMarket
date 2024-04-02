@@ -12,6 +12,11 @@ public class ProductServiceApplication {
 		SpringApplication.run(ProductServiceApplication.class, args);
 	}
 
+	/**
+	 * Additional bean for modelMapper.<br>
+	 * <b>Future: keep in separate file</b>
+	 * @return object for ModelMapper.
+	 */
     @Bean
     ModelMapper modelMapper() {
 		return new ModelMapper();

@@ -10,19 +10,20 @@ package com.urbanmarket.productservice.exception;
 public class ProductNotFoundException extends RuntimeException {
 
 	/**
-	 * 
+	 * Auto generated
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 * Default constructor
 	 */
 	public ProductNotFoundException() {
 		super();
 	}
 
 	/**
-	 * @param message
+	 * Constructor with error message.
+	 * @param message error
 	 */
 	public ProductNotFoundException(String message) {
 		super(message);

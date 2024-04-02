@@ -6,6 +6,7 @@ package com.urbanmarket.productservice.model;
 
 import java.util.Set;
 
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -22,6 +23,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@CompoundIndex(def = "{'name':1 ,'brand':1}",unique = true)
 public class Product {
 	@MongoId
 	private String id;
