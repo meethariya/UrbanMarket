@@ -15,6 +15,8 @@ import com.urbanmarket.productservice.exception.ProductNotFoundException;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+
 /**
  * Handles all exceptions
  */
@@ -52,5 +54,16 @@ public class ExceptionHandlerController {
 	public ResponseEntity<String> handleDuplicateKeyException(DuplicateKeyException e) {
 		log.error(e.getMessage());
 		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+	}
+
+	/**
+	 * Handles IOException with status 500
+	 * @param e exception
+	 * @return error message
+	 */
+	@ExceptionHandler(IOException.class)
+	public ResponseEntity<String> handleIOException(IOException e) {
+		log.error(e.getMessage(),e);
+		return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

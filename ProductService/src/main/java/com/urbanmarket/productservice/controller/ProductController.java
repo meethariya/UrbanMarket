@@ -4,19 +4,23 @@
  */
 package com.urbanmarket.productservice.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.urbanmarket.productservice.dto.RequestProductDto;
 import com.urbanmarket.productservice.dto.ResponseProductDto;
@@ -36,14 +40,14 @@ public class ProductController {
 
 	/**
 	 * Create product.<br>
-	 * Throws {@link org.springframework.http.converter.HttpMessageNotReadableException}.
-	 *
+	 * Throws {@link org.springframework.http.converter.HttpMessageNotReadableException}, .
+	 * {@link IOException}, {@link DuplicateKeyException}
 	 * @param productDto requestProductDto
 	 */
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public void createProduct(@RequestBody RequestProductDto productDto) {
-		productService.createProduct(productDto);
+	public void createProduct(@ModelAttribute RequestProductDto productDto,@RequestParam(name = "images", required = false) MultipartFile[] files) throws IOException {
+		productService.createProduct(productDto, files);
 	}
 
 	/**
@@ -76,7 +80,7 @@ public class ProductController {
 	 * @return Updated responseProductDto
 	 */
 	@PutMapping("/{id}")
-	public ResponseEntity<ResponseProductDto> updateProduct(@PathVariable("id") String id, @RequestBody RequestProductDto productDto){
+	public ResponseEntity<ResponseProductDto> updateProduct(@PathVariable("id") String id, @ModelAttribute RequestProductDto productDto){
 		return new ResponseEntity<>(productService.updateProduct(id, productDto), HttpStatus.ACCEPTED);
 	}
 

@@ -4,6 +4,8 @@
  */
 package com.urbanmarket.productservice.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.urbanmarket.productservice.model.Product;
@@ -13,4 +15,11 @@ import com.urbanmarket.productservice.model.Product;
  */
 public interface ProductRepository extends MongoRepository<Product, String> {
 
+	/**
+	 * Find product by name and brand.
+	 * @param name productName
+	 * @param brand productBrand
+	 * @return Optional of product
+	 */
+	public Optional<Product> findByNameAndBrand(String name, String brand);
 }
