@@ -1,3 +1,6 @@
+# For Developers
+https://meet.google.com/gai-mstq-pdb
+
 # Urban Market Ecommerce Project
 
 Welcome to the Urban Market Ecommerce project! This project aims to create a robust and user-friendly ecommerce platform tailored for urban shoppers. Whether you're a developer contributing to the project or a user interested in learning more about Urban Market, you've come to the right place.
