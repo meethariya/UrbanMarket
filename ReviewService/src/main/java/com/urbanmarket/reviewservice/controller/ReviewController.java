@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.urbanmarket.reviewservice.dto.EditReviewDto;
 import com.urbanmarket.reviewservice.dto.RequestReviewDto;
 import com.urbanmarket.reviewservice.dto.ResponseReviewDto;
 import com.urbanmarket.reviewservice.service.ReviewService;
@@ -96,6 +98,21 @@ public class ReviewController {
 	}
 
 	/**
+	 * Update review.
+	 * 
+	 * @param id        reviewId
+	 * @param reviewDto editReviewDto
+	 * @return updated responseReviewDto
+	 * @throws IOException if files are not handled correctly
+	 */
+	@PutMapping("/{id}")
+	public ResponseEntity<ResponseReviewDto> updateReview(@PathVariable("id") String id,
+			@ModelAttribute EditReviewDto reviewDto,
+			@RequestParam(name = "images", required = false) MultipartFile[] files) throws IOException {
+		return new ResponseEntity<>(reviewService.updateReview(id, reviewDto, files), HttpStatus.ACCEPTED);
+	}
+
+	/**
 	 * Delete review by id
 	 * 
 	 * @param id reviewId
@@ -104,5 +121,16 @@ public class ReviewController {
 	@ResponseStatus(HttpStatus.OK)
 	public void deleteReview(@PathVariable("id") String id) {
 		reviewService.deleteReview(id);
+	}
+
+	/**
+	 * Get average rating of a product
+	 * 
+	 * @param productId id
+	 * @return average rating
+	 */
+	@GetMapping("/averageRating/{id}")
+	public ResponseEntity<Double> getAverageRating(@PathVariable("id") String productId) {
+		return new ResponseEntity<>(reviewService.getAvgRating(productId), HttpStatus.OK);
 	}
 }

@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -20,14 +21,20 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.urbanmarket.reviewservice.dto.EditReviewDto;
 import com.urbanmarket.reviewservice.dto.RequestReviewDto;
 import com.urbanmarket.reviewservice.dto.ResponseReviewDto;
 import com.urbanmarket.reviewservice.exception.ReviewNotFoundException;
 import com.urbanmarket.reviewservice.model.Review;
+import com.urbanmarket.reviewservice.repository.AverageRatingProjection;
 import com.urbanmarket.reviewservice.repository.ReviewRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -43,6 +50,8 @@ import lombok.extern.slf4j.Slf4j;
 public class ReviewService {
 
 	private final ReviewRepository reviewRepository;
+
+	private final MongoTemplate mongoTemplate;
 
 	private final ModelMapper modelMapper;
 
@@ -150,6 +159,57 @@ public class ReviewService {
 	}
 
 	/**
+	 * Update review using id. If images are added, replaces the old with new ones.
+	 * 
+	 * @param id        reviewId
+	 * @param reviewDto editReviewDto
+	 * @param files     images
+	 * @return updated responseReviewDto
+	 * @throws IOException if files are not saved correctly
+	 */
+	public ResponseReviewDto updateReview(String id, EditReviewDto reviewDto, MultipartFile[] files)
+			throws IOException {
+		// check if review exists.
+		Review review = reviewRepository.findById(id)
+				.orElseThrow(() -> new ReviewNotFoundException("No Review found with id: " + id));
+		// update new rating and comments.
+		review.setComment(reviewDto.getComment());
+		review.setRating(reviewDto.getRating());
+		review.setModifiedOn(new Date());
+		// update image if any exists.
+		if (files != null && files.length > 0) {
+			Set<String> allImagePath = new HashSet<>();
+			for (int i = 0; i < files.length; i++) {
+				String imagePath = saveImage(i + 1, review.getProductId(), review.getCustomerId(), files[i]);
+				allImagePath.add(imagePath);
+			}
+			review.setImagePath(allImagePath);
+		}
+		return modelToResponse(reviewRepository.save(review));
+	}
+
+	/**
+	 * Find average rating of a product. Using aggregation, find by id, group them
+	 * and find avg on rating as 'averageRating'. Returns avg as 0 when productId is
+	 * not found.
+	 * 
+	 * @param productId id
+	 * @return average rating
+	 */
+	public Double getAvgRating(String productId) {
+		// Create an aggregation pipeline
+		Aggregation aggregation = Aggregation.newAggregation(
+				Aggregation.match(Criteria.where("productId").is(productId)),
+				Aggregation.group("productId").avg("rating").as("averageRating"));
+
+		// Perform aggregation
+		AggregationResults<AverageRatingProjection> results = mongoTemplate.aggregate(aggregation, "review",
+				AverageRatingProjection.class);
+		AverageRatingProjection ratingProjection = results.getUniqueMappedResult();
+		return ratingProjection != null ? ratingProjection.getAverageRating() : 0;
+	}
+
+	/**
 	 * Converts request review dto to review model. Sets modified date as current
 	 * date.
 	 * 
@@ -216,7 +276,7 @@ public class ReviewService {
 			dir.mkdirs();
 		}
 		// save file
-		Files.copy(file.getInputStream(), Paths.get(filePath));
+		Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
 		return filePath;
 	}
 
