@@ -4,15 +4,16 @@
  */
 package com.urbanmarket.inventoryservice.model;
 
-import java.util.Date;
-
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
+import java.util.Objects;
 
 @Document
 @Data
@@ -24,6 +25,20 @@ public class Inventory {
 	private String id;
 	private String productId;
 	private long quantity;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date importDate;
 	private Date lastSoldDate;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Inventory inventory = (Inventory) o;
+		return quantity == inventory.quantity && Objects.equals(productId, inventory.productId) && Objects.equals(importDate, inventory.importDate) && Objects.equals(lastSoldDate, inventory.lastSoldDate);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(productId, quantity, importDate, lastSoldDate);
+	}
 }

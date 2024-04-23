@@ -1,9 +1,17 @@
 /**
- * 31-Mar-2024
- * meeth
+ * 11-Apr-2024
+ * anike
  */
 package com.urbanmarket.inventoryservice.dto;
 
-public class RequestInventoryDto {
+import java.util.Date;
 
+import lombok.Data;
+
+@Data
+public class RequestInventoryDto {
+	private String productId;
+	private long quantity;
+	private Date importDate;
+	private Date lastSoldDate;
 }
