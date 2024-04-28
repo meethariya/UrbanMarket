@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Service class for Inventory
+ */
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -25,7 +29,12 @@ public class InventoryService {
 	private final InventoryRepository inventoryRepository;
 	
 	private final ModelMapper modelMapper;
-	
+
+	/**
+	 * Converts {@link Inventory} {@link ResponseInventoryDto}.
+	 * @param inventory
+	 * @return
+	 */
 	public ResponseInventoryDto convertToResponseInventoryDto(Inventory inventory) {
 		if(inventory == null){
 			throw new InventoryGenericException("IVNERROCC0002","Inventory Not Found",null);
@@ -33,6 +42,11 @@ public class InventoryService {
 		return modelMapper.map(inventory, ResponseInventoryDto.class);
 	}
 
+	/**
+	 * Method to create {@link Inventory}.
+	 * @param inventoryDto
+	 * @return
+	 */
 	public ResponseInventoryDto createProduct(RequestInventoryDto inventoryDto) {
 		if(inventoryRepository.existsByProductId(inventoryDto.getProductId())){
 			throw new InventoryGenericException("IVNERROCC0001","Product already exists cannot create a product with productId: "+inventoryDto.getProductId(),null);
@@ -43,6 +57,11 @@ public class InventoryService {
 		return savedInventory;
 	}
 
+	/**
+	 * Method to get {@link Inventory}/ies.
+	 * @param productId
+	 * @return
+	 */
 	public List<ResponseInventoryDto> getInventories(String productId) {
 		log.info("Getting all the inventories");
 		List<ResponseInventoryDto> inventoryList;
@@ -62,6 +81,12 @@ public class InventoryService {
 		}
 	}
 
+	/**
+	 * Method to update {@link Inventory}.
+	 * Updates the fields that are changed.
+	 * @param inventoryDto
+	 * @return
+	 */
 	public ResponseInventoryDto updateInventory(RequestInventoryDto inventoryDto) {
 		log.debug("Updating Inventory");
 		if(!inventoryRepository.existsByProductId(inventoryDto.getProductId())){
@@ -87,6 +112,10 @@ public class InventoryService {
 		return updatedInventory;
 	}
 
+	/**
+	 * Method to delete {@link Inventory}.
+	 * @param id
+	 */
 	public void deleteInventoryById(String id) {
 		inventoryRepository.deleteById(id);
 	}
