@@ -1,3 +1,4 @@
+![UM](https://github.com/meethariya/UrbanMarket/assets/77565310/b2371e24-ed63-415e-bee3-960bd1cf86ea)
 # For Developers
 https://meet.google.com/gai-mstq-pdb
 
@@ -56,3 +57,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 If you have any questions or suggestions regarding Urban Market, feel free to contact us at [Email us](mailto:aniketbedarkar1962@gmail.com).
 
 Thank you for your interest in Urban Market! Happy shopping! 🛍️
+
