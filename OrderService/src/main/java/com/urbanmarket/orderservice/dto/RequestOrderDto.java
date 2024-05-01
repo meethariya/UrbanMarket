@@ -15,6 +15,7 @@ import lombok.Data;
 @Data
 public class RequestOrderDto {
 	private long customerId;
+	private String addressType;
 	private Map<String, Integer> items;
 	private UUID transactionId;
 }

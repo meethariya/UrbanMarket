@@ -2,7 +2,7 @@
  * 21-Apr-2024
  * meeth
  */
-package com.urbanmarket.orderservice.dto;
+package com.urbanmarket.emailservice.dto;
 
 import java.util.Date;
 import java.util.Map;

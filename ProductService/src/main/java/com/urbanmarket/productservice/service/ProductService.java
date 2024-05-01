@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -100,6 +101,24 @@ public class ProductService {
 	public ResponseProductDto getProductById(String id) {
 		log.info("PRODUCTSERVICE: Get product by id @PORT: " + port);
 		return modelToResponse(productRepository.findById(id).orElseThrow(()-> new ProductNotFoundException("No product found with id: "+id)));
+	}
+	
+	/**
+	 * Iterates through all id, and finds respective product.
+	 * @param id list of productId
+	 * @return list of responseProductDto
+	 */
+	public List<ResponseProductDto> getProductById(String[] id) {
+		log.info("PRODUCTSERVICE: Get multiple product by ids @PORT: " + port);
+		
+		List<ResponseProductDto> products = new ArrayList<>();
+		for(String i: id) {
+			Optional<Product> optional = productRepository.findById(i);
+			if(optional.isPresent()) {
+				products.add(modelToResponse(optional.get()));
+			}
+		}
+		return products;
 	}
 
 	/**

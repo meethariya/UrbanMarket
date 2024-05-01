@@ -70,6 +70,18 @@ public class ProductController {
 	public ResponseEntity<ResponseProductDto> getProductById(@PathVariable("id") String id){
 		return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
 	}
+	
+
+	/**
+	 * Get multiple products using respective ids.
+	 *
+	 * @param id list of productIds
+	 * @return list of responseProductDto
+	 */
+	@GetMapping("/multiple-products")
+	public ResponseEntity<List<ResponseProductDto>> getMultipleProductsById(@RequestParam("id") String[] id){
+		return new ResponseEntity<>(productService.getProductById(id), HttpStatus.OK);
+	}
 
 	/**
 	 * Update product details.<br>

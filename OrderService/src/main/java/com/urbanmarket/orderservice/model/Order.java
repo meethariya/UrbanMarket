@@ -44,6 +44,9 @@ public class Order {
 	@Column(nullable = false, updatable = false)
 	private long customerId;
 
+	@Column(nullable = false)
+	private String addressType;
+	
 	@ElementCollection(fetch = FetchType.EAGER)
 	@MapKeyColumn(name = "productId")
 	@Column(name = "quantity")
