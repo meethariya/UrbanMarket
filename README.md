@@ -2,6 +2,10 @@
 # For Developers
 https://meet.google.com/gai-mstq-pdb
 
+https://www.figma.com/design/Eo9Ps632lofpcTOeVFJqAG/E-commerce-UI---Figma-Ecommerce-UI-Kit-(Demo-Version)-(Community)?node-id=2793-708&t=33ScKTnWeypjZd7A-0
+
+https://www.figma.com/design/Pso7Y6wP0zkvJPIBrIYyes/eCommerce-Website-%7C-Web-Page-Design-%7C-UI-KIT-%7C-Interior-Landing-Page-(Community)?node-id=0-1&t=hJbAe8zcdoxdc9Uz-0
+
 # Urban Market Ecommerce Project
 
 Welcome to the Urban Market Ecommerce project! This project aims to create a robust and user-friendly ecommerce platform tailored for urban shoppers. Whether you're a developer contributing to the project or a user interested in learning more about Urban Market, you've come to the right place.
