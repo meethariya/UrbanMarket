@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,6 +28,7 @@ import java.util.Objects;
 public class Inventory {
 	@MongoId
 	private String id;
+	@Indexed(unique = true)
 	private String productId;
 	private long quantity;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
