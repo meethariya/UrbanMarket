@@ -1,7 +1,10 @@
 ![UM](https://github.com/meethariya/UrbanMarket/assets/77565310/b2371e24-ed63-415e-bee3-960bd1cf86ea)
 # For Developers
 https://meet.google.com/gai-mstq-pdb
+
 https://www.figma.com/design/Eo9Ps632lofpcTOeVFJqAG/E-commerce-UI---Figma-Ecommerce-UI-Kit-(Demo-Version)-(Community)?node-id=2793-708&t=33ScKTnWeypjZd7A-0
+
+https://www.figma.com/design/Pso7Y6wP0zkvJPIBrIYyes/eCommerce-Website-%7C-Web-Page-Design-%7C-UI-KIT-%7C-Interior-Landing-Page-(Community)?node-id=0-1&t=hJbAe8zcdoxdc9Uz-0
 
 # Urban Market Ecommerce Project
 
