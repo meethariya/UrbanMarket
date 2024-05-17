@@ -4,6 +4,22 @@
  */
 package com.urbanmarket.inventoryservice.controller;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 /**
  * Controller layer for {@link Inventory}.
  */
@@ -12,15 +28,10 @@ import com.urbanmarket.inventoryservice.dto.RequestInventoryDto;
 import com.urbanmarket.inventoryservice.dto.ResponseInventoryDto;
 import com.urbanmarket.inventoryservice.model.UMResponse;
 import com.urbanmarket.inventoryservice.service.InventoryService;
+
 import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -100,14 +111,14 @@ public class InventoryController {
 	}
 
 	/**
-	 * Get inventory by productId
+	 * Get inventories by productIds
 	 * 
 	 * @param productId id
-	 * @return responseInventoryDto
+	 * @return List<responseInventoryDto>
 	 */
-	@GetMapping("/product/{id}")
-	public ResponseEntity<ResponseInventoryDto> getInventoryByProductId(@PathVariable("id") String productId) {
-		return new ResponseEntity<>(inventoryService.getByProductId(productId), HttpStatus.OK);
+	@GetMapping("/multiple-product")
+	public ResponseEntity<List<ResponseInventoryDto>> getInventoryByProductId(@RequestParam("ids") String[] productIds) {
+		return new ResponseEntity<>(inventoryService.getByProductId(productIds), HttpStatus.OK);
 	}
 
 }

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.urbanmarket.productservice.dto.RequestProductDto;
+import com.urbanmarket.productservice.dto.ResponseFullInventory;
 import com.urbanmarket.productservice.dto.ResponseProductDto;
 import com.urbanmarket.productservice.service.ProductService;
 
@@ -103,5 +104,14 @@ public class ProductController {
 	@DeleteMapping("/{id}")
 	public void deleteProductById(@PathVariable("id") String id){
 		productService.deleteProduct(id);
+	}
+	
+	/**
+	 * Get full inventory along with product details
+	 * @return
+	 */
+	@GetMapping("/inventory")
+	public ResponseEntity<List<ResponseFullInventory>> getFullInventory(){
+		return new ResponseEntity<>(productService.getFullInventory(), HttpStatus.OK);
 	}
 }

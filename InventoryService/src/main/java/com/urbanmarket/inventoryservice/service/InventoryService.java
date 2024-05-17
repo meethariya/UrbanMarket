@@ -14,7 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,6 +58,9 @@ public class InventoryService {
 					null);
 		}
 		Inventory inventory = modelMapper.map(inventoryDto, Inventory.class);
+		if(inventory.getImportDate()==null) {
+			inventory.setImportDate(new Date());
+		}
 		log.info("Creating a new inventory: " + inventory);
 		ResponseInventoryDto savedInventory = convertToResponseInventoryDto(inventoryRepository.save(inventory));
 		return savedInventory;
@@ -134,17 +139,26 @@ public class InventoryService {
 	 * @param productId
 	 */
 	public void deleteByProductId(String productId) {
+		log.info("INVENTORYSERVICE: Delete by productId");
 		inventoryRepository.deleteByProductId(productId);
 	}
 
 	/**
-	 * Get inventory by product id 
-	 * TODO: handle id not found exception
+	 * Get all inventory by product ids
 	 * 
-	 * @param id productId
-	 * @return responseInventoryDto
+	 * @param id productIds
+	 * @return List<responseInventoryDto>
 	 */
-	public ResponseInventoryDto getByProductId(String id) {
-		return modelMapper.map(inventoryRepository.findByProductId(id), ResponseInventoryDto.class);
+	public List<ResponseInventoryDto> getByProductId(String[] id) {
+		log.info("INVENTORYSERVICE: Get by inventories by productIds");
+		
+		List<ResponseInventoryDto> response = new ArrayList<>();
+		for(String i : id) {
+			Inventory inventory = inventoryRepository.findByProductId(i);
+			if(inventory!=null) {
+				response.add(modelMapper.map(inventory, ResponseInventoryDto.class));
+			}
+		}
+		return response;
 	}
 }
