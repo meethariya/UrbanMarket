@@ -22,7 +22,7 @@ public final class RouteValidator {
 	/**
 	 * List of APIs that can bypass filter
 	 */
-	private static final List<String> permitAll = List.of("/api/authentication/**");
+	private static final List<String> permitAll = List.of("/api/authentication", "/api/user/create");
 
 	/**
 	 * List of APIs that are specifically for admin only.
