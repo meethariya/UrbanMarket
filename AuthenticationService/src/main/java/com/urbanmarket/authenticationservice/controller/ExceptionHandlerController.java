@@ -4,6 +4,11 @@
  */
 package com.urbanmarket.authenticationservice.controller;
 
+import java.util.Date;
+import java.util.Locale;
+
+import org.springframework.context.MessageSource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,9 +16,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.urbanmarket.authenticationservice.exception.CredentialNotFoundException;
+import com.urbanmarket.authenticationservice.exception.ExceptionMessage;
 
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -21,7 +28,12 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class ExceptionHandlerController {
+
+	private final MessageSource source;
+	private static final String UNAUTHORIZEDCODE = "unauthorized.code";
+	private static final String UNAUTHORIZEDTITLE = "unauthorized.title";
 
 	/**
 	 * Handles error for {@link UserCredentialNotFoundException}.
@@ -30,9 +42,24 @@ public class ExceptionHandlerController {
 	 * @return Error message with Not Found status.
 	 */
 	@ExceptionHandler(CredentialNotFoundException.class)
-	public ResponseEntity<String> handleCredentialNotFoundException(CredentialNotFoundException e) {
+	public ResponseEntity<ExceptionMessage> handleCredentialNotFoundException(CredentialNotFoundException e) {
 		log.error(e.getMessage());
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(exceptionResponseGenerator("notFound.code", "notFound.title", e.getMessage()),
+				HttpStatus.NOT_FOUND);
+	}
+
+	/**
+	 * Handles DataIntegrityViolationException with status 400
+	 * 
+	 * @param e exception
+	 * @return error message
+	 */
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<ExceptionMessage> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+		log.error(e.getMessage());
+		return new ResponseEntity<>(
+				exceptionResponseGenerator("invalidInput.code", "invalidInput.title", e.getMessage()),
+				HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -42,9 +69,10 @@ public class ExceptionHandlerController {
 	 * @return Error message with UnAuthorized status.
 	 */
 	@ExceptionHandler(BadCredentialsException.class)
-	public ResponseEntity<String> handleBadCredentialsException(BadCredentialsException e) {
+	public ResponseEntity<ExceptionMessage> handleBadCredentialsException(BadCredentialsException e) {
 		log.error(e.getMessage());
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(exceptionResponseGenerator(UNAUTHORIZEDCODE, UNAUTHORIZEDTITLE, e.getMessage()),
+				HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -54,9 +82,10 @@ public class ExceptionHandlerController {
 	 * @return Error message with UnAuthorized status.
 	 */
 	@ExceptionHandler(SignatureException.class)
-	public ResponseEntity<String> handleSignatureException(SignatureException e) {
+	public ResponseEntity<ExceptionMessage> handleSignatureException(SignatureException e) {
 		log.error(e.getMessage());
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(exceptionResponseGenerator(UNAUTHORIZEDCODE, UNAUTHORIZEDTITLE, e.getMessage()),
+				HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -66,9 +95,23 @@ public class ExceptionHandlerController {
 	 * @return Error message with UnAuthorized status.
 	 */
 	@ExceptionHandler(MalformedJwtException.class)
-	public ResponseEntity<String> handleMalformedJwtException(MalformedJwtException e) {
+	public ResponseEntity<ExceptionMessage> handleMalformedJwtException(MalformedJwtException e) {
 		log.error(e.getMessage());
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+		return new ResponseEntity<>(exceptionResponseGenerator(UNAUTHORIZEDCODE, UNAUTHORIZEDTITLE, e.getMessage()),
+				HttpStatus.BAD_REQUEST);
+	}
+
+	/**
+	 * Generate Response for exception
+	 * 
+	 * @param code    exception status code
+	 * @param title   exception title
+	 * @param message exception message
+	 * @return exceptionMessage
+	 */
+	private ExceptionMessage exceptionResponseGenerator(String code, String title, String message) {
+		return ExceptionMessage.builder().timestamp(new Date()).status(source.getMessage(code, null, Locale.ENGLISH))
+				.title(source.getMessage(title, null, Locale.ENGLISH)).message(message).build();
 	}
 
 }

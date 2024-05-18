@@ -5,7 +5,10 @@
 package com.urbanmarket.reviewservice.controller;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.Locale;
 
+import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +16,10 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.urbanmarket.reviewservice.exception.ExceptionMessage;
 import com.urbanmarket.reviewservice.exception.ReviewNotFoundException;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,7 +27,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class ExceptionHandlerController {
+
+	private final MessageSource source;
 
 	/**
 	 * Handles invalid user input with status 400
@@ -31,9 +39,11 @@ public class ExceptionHandlerController {
 	 * @return error message
 	 */
 	@ExceptionHandler(HttpMessageNotReadableException.class)
-	public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+	public ResponseEntity<ExceptionMessage> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
 		log.error(e.getMessage());
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(
+				exceptionResponseGenerator("invalidInput.code", "invalidInput.title", e.getMessage()),
+				HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -43,9 +53,11 @@ public class ExceptionHandlerController {
 	 * @return error message
 	 */
 	@ExceptionHandler(DuplicateKeyException.class)
-	public ResponseEntity<String> handleDuplicateKeyException(DuplicateKeyException e) {
+	public ResponseEntity<ExceptionMessage> handleDuplicateKeyException(DuplicateKeyException e) {
 		log.error(e.getMessage());
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(
+				exceptionResponseGenerator("invalidInput.code", "invalidInput.title", e.getMessage()),
+				HttpStatus.BAD_REQUEST);
 	}
 
 	/**
@@ -55,9 +67,10 @@ public class ExceptionHandlerController {
 	 * @return error message
 	 */
 	@ExceptionHandler(IOException.class)
-	public ResponseEntity<String> handleIOException(IOException e) {
+	public ResponseEntity<ExceptionMessage> handleIOException(IOException e) {
 		log.error(e.getMessage(), e);
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(exceptionResponseGenerator("ioException.code", "ioException.title", e.getMessage()),
+				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	/**
@@ -67,8 +80,23 @@ public class ExceptionHandlerController {
 	 * @return error message
 	 */
 	@ExceptionHandler(ReviewNotFoundException.class)
-	public ResponseEntity<String> handleReviewNotFoundException(ReviewNotFoundException e) {
+	public ResponseEntity<ExceptionMessage> handleReviewNotFoundException(ReviewNotFoundException e) {
 		log.error(e.getMessage());
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(exceptionResponseGenerator("notFound.code", "notFound.title", e.getMessage()),
+				HttpStatus.NOT_FOUND);
 	}
+
+	/**
+	 * Generate Response for exception
+	 * 
+	 * @param code    exception status code
+	 * @param title   exception title
+	 * @param message exception message
+	 * @return exceptionMessage
+	 */
+	private ExceptionMessage exceptionResponseGenerator(String code, String title, String message) {
+		return ExceptionMessage.builder().timestamp(new Date()).status(source.getMessage(code, null, Locale.ENGLISH))
+				.title(source.getMessage(title, null, Locale.ENGLISH)).message(message).build();
+	}
+
 }

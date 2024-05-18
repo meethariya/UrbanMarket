@@ -13,11 +13,14 @@ public class ServiceUnavailableException extends Exception {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private final Integer code;
+
 	/**
 	 * Default constructor
 	 */
 	public ServiceUnavailableException() {
 		super();
+		code = null;
 	}
 
 	/**
@@ -27,5 +30,24 @@ public class ServiceUnavailableException extends Exception {
 	 */
 	public ServiceUnavailableException(String message) {
 		super(message);
+		code = null;
 	}
+
+	/**
+	 * Constructor with error message
+	 * 
+	 * @param message error
+	 */
+	public ServiceUnavailableException(String message, int code) {
+		super(message);
+		this.code = code;
+	}
+
+	/**
+	 * @return the code
+	 */
+	public Integer getCode() {
+		return code;
+	}
+
 }

@@ -18,7 +18,6 @@ import feign.codec.ErrorDecoder;
  */
 @Configuration
 public class FeignClientConfig {
-
 	@Bean
 	ErrorDecoder errorDecoder() {
 		return (String methodKey, Response response) -> {
@@ -29,7 +28,7 @@ public class FeignClientConfig {
 			// response according to other service's status
 			if (responseStatus.isSameCodeAs(HttpStatus.SERVICE_UNAVAILABLE)) {
 				// appending error status code along with message
-				return new ServiceUnavailableException(String.valueOf(responseStatus.value()) + "Service unavailable");
+				return new ServiceUnavailableException("An internal service is unavailable");
 			} else {
 				// fetching error message from response
 				Response.Body responseBody = response.body();
@@ -37,12 +36,11 @@ public class FeignClientConfig {
 					String message = IOUtils.toString(responseBody.asInputStream(), StandardCharsets.UTF_8);
 					response.close();
 					// appending error status code along with message
-					return new ServiceUnavailableException(String.valueOf(responseStatus.value()) + message);
+					return new ServiceUnavailableException(message, responseStatus.value());
 				} catch (IOException e1) {
 					e1.printStackTrace();
 					// appending error status code along with message
-					return new ServiceUnavailableException(
-							String.valueOf(responseStatus.value()) + "Service undefined error");
+					return new ServiceUnavailableException("Service undefined error");
 				}
 			}
 		};
