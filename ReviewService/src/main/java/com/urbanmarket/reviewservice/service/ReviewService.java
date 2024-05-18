@@ -210,6 +210,28 @@ public class ReviewService {
 	}
 
 	/**
+	 * Delete all reviews of a customer
+	 * 
+	 * @param id customerId
+	 */
+	public void deleteByCustomerId(long id) {
+		List<ResponseReviewDto> reviewByCustomer = getReviewByCustomer(id);
+		for (ResponseReviewDto r : reviewByCustomer)
+			deleteReview(r.getId());
+	}
+
+	/**
+	 * Delete all reviews of a product
+	 * 
+	 * @param id productId
+	 */
+	public void deleteByProductId(String id) {
+		List<ResponseReviewDto> reviewByProduct = getReviewByProduct(id);
+		for (ResponseReviewDto r : reviewByProduct)
+			deleteReview(r.getId());
+	}
+
+	/**
 	 * Converts request review dto to review model. Sets modified date as current
 	 * date.
 	 * 

@@ -43,7 +43,7 @@ public class UserController {
 	 * @param customerDto requestCustomerDto
 	 * @throws IOException if image is not saved correctly
 	 */
-	@PostMapping
+	@PostMapping("/create")
 	@ResponseStatus(HttpStatus.CREATED)
 	public void createCustomer(@RequestBody RequestCustomerDto customerDto) {
 		userService.createCustomer(customerDto);

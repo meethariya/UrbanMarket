@@ -29,6 +29,7 @@ import com.urbanmarket.userservice.exception.DataNotFoundException;
 import com.urbanmarket.userservice.model.Address;
 import com.urbanmarket.userservice.model.Customer;
 import com.urbanmarket.userservice.openfeign.AuthenticationClient;
+import com.urbanmarket.userservice.openfeign.ReviewClient;
 import com.urbanmarket.userservice.repository.AddressRepository;
 import com.urbanmarket.userservice.repository.CustomerRepository;
 
@@ -54,6 +55,8 @@ public class UserService {
 	private final MessageSource source;
 
 	private final AuthenticationClient authenticationClient;
+	
+	private final ReviewClient reviewClient;
 
 	@Value("${server.port}")
 	String port;
@@ -109,8 +112,11 @@ public class UserService {
 		log.info("USERSERVICE: Delete customer @PORT: " + port);
 		Optional<Customer> byId = customerRepository.findById(id);
 		if (byId.isPresent()) {
-			authenticationClient.deleteUser(byId.get().getEmail());
 			customerRepository.deleteById(id);
+			// delete user credentials
+			authenticationClient.deleteUser(byId.get().getEmail());
+			// delete all reviews of customer
+			reviewClient.deleteReviewOfCustomer(id);
 		}
 	}
 

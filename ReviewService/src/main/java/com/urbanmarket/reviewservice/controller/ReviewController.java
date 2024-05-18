@@ -124,6 +124,28 @@ public class ReviewController {
 	}
 
 	/**
+	 * Delete reviews of a customer
+	 * 
+	 * @param id customerId
+	 */
+	@DeleteMapping("/customer/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteReviewOfCustomer(@PathVariable("id") long id) {
+		reviewService.deleteByCustomerId(id);
+	}
+
+	/**
+	 * Delete reviews of a product
+	 * 
+	 * @param id productId
+	 */
+	@DeleteMapping("/product/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteReviewOfProduct(@PathVariable("id") String id) {
+		reviewService.deleteByProductId(id);
+	}
+
+	/**
 	 * Get average rating of a product
 	 * 
 	 * @param productId id

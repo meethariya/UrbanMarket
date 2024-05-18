@@ -34,6 +34,7 @@ import com.urbanmarket.productservice.dto.ResponseProductDto;
 import com.urbanmarket.productservice.exception.ProductNotFoundException;
 import com.urbanmarket.productservice.model.Product;
 import com.urbanmarket.productservice.openfeign.InventoryClient;
+import com.urbanmarket.productservice.openfeign.ReviewClient;
 import com.urbanmarket.productservice.repository.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,8 @@ public class ProductService {
 	private final MessageSource source;
 
 	private final InventoryClient inventoryClient;
+	
+	private final ReviewClient reviewClient;
 
 	@Value("${server.port}")
 	String port;
@@ -202,6 +205,8 @@ public class ProductService {
 		productRepository.deleteById(id);
 		// delete inventory
 		inventoryClient.deleteByProductId(id);
+		// delete reviews
+		reviewClient.deleteReviewOfProduct(id);
 	}
 
 	/**
