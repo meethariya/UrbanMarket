@@ -20,6 +20,8 @@ public class RequestCustomerDto {
 	private String name;
 
 	private String email;
+	
+	private String password;
 
 	private Role role;
 

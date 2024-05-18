@@ -12,6 +12,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,11 +22,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.urbanmarket.userservice.dto.RequestAddressDto;
 import com.urbanmarket.userservice.dto.RequestCustomerDto;
+import com.urbanmarket.userservice.dto.RequestUserCredentialDto;
 import com.urbanmarket.userservice.dto.ResponseAddressDto;
 import com.urbanmarket.userservice.dto.ResponseCustomerDto;
 import com.urbanmarket.userservice.exception.DataNotFoundException;
 import com.urbanmarket.userservice.model.Address;
 import com.urbanmarket.userservice.model.Customer;
+import com.urbanmarket.userservice.openfeign.AuthenticationClient;
 import com.urbanmarket.userservice.repository.AddressRepository;
 import com.urbanmarket.userservice.repository.CustomerRepository;
 
@@ -50,18 +53,28 @@ public class UserService {
 
 	private final MessageSource source;
 
+	private final AuthenticationClient authenticationClient;
+
 	@Value("${server.port}")
 	String port;
 
 	/**
-	 * Create customer.
+	 * Create customer. If password is provided then creates authentication
+	 * credential in authentication service
 	 * 
 	 * @param customerDto
-	 * @throws IOException if image is not saved correctly
 	 */
 	public void createCustomer(RequestCustomerDto customerDto) {
 		log.info("USERSERVICE: Create customer @PORT: " + port);
+
 		customerRepository.save(requestToModel(customerDto));
+
+		if (customerDto.getPassword() != null) {
+			RequestUserCredentialDto credentialDto = RequestUserCredentialDto.builder().email(customerDto.getEmail())
+					.role(customerDto.getRole().toString()).password(customerDto.getPassword()).build();
+
+			authenticationClient.saveUser(credentialDto);
+		}
 	}
 
 	/**
@@ -94,7 +107,11 @@ public class UserService {
 	 */
 	public void deleteCustomer(long id) {
 		log.info("USERSERVICE: Delete customer @PORT: " + port);
-		customerRepository.deleteById(id);
+		Optional<Customer> byId = customerRepository.findById(id);
+		if (byId.isPresent()) {
+			authenticationClient.deleteUser(byId.get().getEmail());
+			customerRepository.deleteById(id);
+		}
 	}
 
 	/**
