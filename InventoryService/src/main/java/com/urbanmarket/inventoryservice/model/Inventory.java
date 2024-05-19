@@ -4,10 +4,8 @@
  */
 package com.urbanmarket.inventoryservice.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.mongodb.lang.NonNull;
+import lombok.*;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -29,6 +27,7 @@ public class Inventory {
 	@MongoId
 	private String id;
 	@Indexed(unique = true)
+	@NonNull
 	private String productId;
 	private long quantity;
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

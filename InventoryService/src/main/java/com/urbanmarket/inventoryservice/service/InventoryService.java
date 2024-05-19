@@ -7,6 +7,7 @@ package com.urbanmarket.inventoryservice.service;
 import com.urbanmarket.inventoryservice.dto.RequestInventoryDto;
 import com.urbanmarket.inventoryservice.dto.ResponseInventoryDto;
 import com.urbanmarket.inventoryservice.exception.InventoryGenericException;
+import com.urbanmarket.inventoryservice.exception.InventoryNotFoundException;
 import com.urbanmarket.inventoryservice.model.Inventory;
 import com.urbanmarket.inventoryservice.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,8 @@ public class InventoryService {
 
 	private final ModelMapper modelMapper;
 
+	private static final String NOT_FOUND_MESSAGE="Inventory not found for given productId: ";
+
 	/**
 	 * Converts {@link Inventory} {@link ResponseInventoryDto}.
 	 * 
@@ -52,18 +55,12 @@ public class InventoryService {
 	 * @return
 	 */
 	public ResponseInventoryDto createProduct(RequestInventoryDto inventoryDto) {
-		if (inventoryRepository.existsByProductId(inventoryDto.getProductId())) {
-			throw new InventoryGenericException("IVNERROCC0001",
-					"Product already exists cannot create a product with productId: " + inventoryDto.getProductId(),
-					null);
-		}
 		Inventory inventory = modelMapper.map(inventoryDto, Inventory.class);
 		if(inventory.getImportDate()==null) {
 			inventory.setImportDate(new Date());
 		}
-		log.info("Creating a new inventory: " + inventory);
-		ResponseInventoryDto savedInventory = convertToResponseInventoryDto(inventoryRepository.save(inventory));
-		return savedInventory;
+        log.info("Creating a new inventory: {}", inventory);
+        return convertToResponseInventoryDto(inventoryRepository.save(inventory));
 	}
 
 	/**
@@ -78,8 +75,7 @@ public class InventoryService {
 		if (productId != null) {
 			Inventory inventory = inventoryRepository.findByProductId(productId);
 			if (inventory == null) {
-				throw new InventoryGenericException("IVNERROCC0002",
-						"Inventory not found for given productId: " + productId, null);
+				throw new InventoryNotFoundException(NOT_FOUND_MESSAGE + productId);
 			}
 			inventoryList = Collections.singletonList(convertToResponseInventoryDto(inventory));
 		} else {
@@ -88,7 +84,7 @@ public class InventoryService {
 		if (!inventoryList.isEmpty()) {
 			return inventoryList;
 		} else {
-			throw new InventoryGenericException("IVNERROCC0002", "No Inventory available", null);
+			throw new InventoryNotFoundException(NOT_FOUND_MESSAGE + productId);
 		}
 	}
 
@@ -101,12 +97,11 @@ public class InventoryService {
 	public ResponseInventoryDto updateInventory(RequestInventoryDto inventoryDto) {
 		log.debug("Updating Inventory");
 		if (!inventoryRepository.existsByProductId(inventoryDto.getProductId())) {
-			throw new InventoryGenericException("IVNERROCC0002",
-					"No such inventory found for Id: " + inventoryDto.getProductId(), null);
+			throw new InventoryNotFoundException(NOT_FOUND_MESSAGE + inventoryDto.getProductId());
 		}
 		Inventory savedInventory = inventoryRepository.findByProductId(inventoryDto.getProductId());
 		if (savedInventory.equals(modelMapper.map(inventoryDto, Inventory.class))) {
-			throw new InventoryGenericException("IVNERROCC0001", "No changes found", null);
+			return convertToResponseInventoryDto(savedInventory);
 		}
 		if (!inventoryDto.getProductId().isEmpty() || !inventoryDto.getProductId().isBlank()) {
 			savedInventory.setProductId(inventoryDto.getProductId());
@@ -120,8 +115,7 @@ public class InventoryService {
 		if (inventoryDto.getLastSoldDate() != null) {
 			savedInventory.setLastSoldDate(inventoryDto.getLastSoldDate());
 		}
-		ResponseInventoryDto updatedInventory = convertToResponseInventoryDto(inventoryRepository.save(savedInventory));
-		return updatedInventory;
+        return convertToResponseInventoryDto(inventoryRepository.save(savedInventory));
 	}
 
 	/**

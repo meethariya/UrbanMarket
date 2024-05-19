@@ -4,17 +4,19 @@ import lombok.Getter;
 
 import java.io.Serial;
 
+@Getter
 public class InventoryGenericException extends RuntimeException{
     @Serial
     private static final long serialVersionUID = 1124L;
-    @Getter
-    private String errorCode;
-    private String errorMessage;
+    private final String errorCode;
+    private final String errorMessage;
     /**
      * Default constructor
      */
     public InventoryGenericException() {
         super();
+        this.errorCode=null;
+        this.errorMessage=null;
     }
 
     /**
@@ -25,16 +27,6 @@ public class InventoryGenericException extends RuntimeException{
         super(message, cause);
         this.errorCode = errorCode;
         this.errorMessage = message;
-    }
-
-    /**
-     * Constructor with error code
-     * @param cause
-     * @param errorCode
-     */
-    public InventoryGenericException(String errorCode, Throwable cause) {
-        super(cause);
-        this.errorCode = errorCode;
     }
 
 }
