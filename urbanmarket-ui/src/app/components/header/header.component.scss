@@ -1,0 +1,58 @@
+@import "../../variables.scss";
+
+.header {
+    transition: background-color 0.5s linear;
+    @media only screen and (min-width: $desktop) {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1000;
+    }
+    .navbar-brand{
+        img{
+            height: 60px;
+            width: 60px;
+            margin-right: -8px;
+            margin-top: -15px;
+        }
+        .logo-title{
+            color: $accent1;
+            font-size: 30px;
+        }
+    }
+    .login {
+        cursor: pointer;
+    }
+    &.not-scrolled{
+        background-color: transparent;
+        @media only screen and (min-width: $desktop) {
+            .login{
+                svg path{
+                    fill: $black;
+                }
+            }
+        }
+    }
+    a, .login{
+        opacity: 0.8;
+        font-weight: bold;
+        &.active{
+            opacity: 1;
+        }
+    }
+    &.scrolled{
+        background-color:$primary2;
+        a, .login{
+            color: $white;
+        }
+    }
+    @media only screen and (max-width: ($desktop - 1)) {
+        &.main-nav {
+            background-color:$primary2;
+            a, .login{
+                color: $white;
+            }
+        }
+    }
+}
