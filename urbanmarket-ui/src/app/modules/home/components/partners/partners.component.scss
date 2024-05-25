@@ -1,0 +1,49 @@
+@import "../../../../variables.scss";
+
+.partners {
+    display: flex;
+    justify-content: center;
+    @media only screen and (max-width: ($tablet - 1)) {
+        flex-direction: column;
+    }
+    @media only screen and (min-width: $tablet) {
+        height: 150px;
+    }
+    img{
+        align-self: center;
+        height: 100px;
+        margin: 0 2rem;
+        transition: transform 500ms linear;
+        @media only screen and (max-width: $tablet) {
+            margin: 1rem auto;
+        }
+        @media only screen and (min-width: $tablet) and (max-width: $desktop) {
+            height: 70px;
+            width: 70px;
+            margin: 0 1rem;
+        }
+        &:hover {
+            transform:scale(1.1);
+        }
+    }
+}
+.custom-tooltip {
+    .tooltip-inner {
+        background-color: $primary1;
+        font-size: 125%;
+        font-weight: 350;
+    }
+    &.bs-tooltip-end .tooltip-arrow::before {
+        border-right-color: $primary1;
+    }
+    &.bs-tooltip-start .tooltip-arrow::before {
+        border-left-color: $primary1;
+    }
+    &.bs-tooltip-top .tooltip-arrow::before {
+        border-top-color: $primary1;
+    }
+    &.bs-tooltip-bottom .tooltip-arrow::before {
+        border-bottom-color: $primary1;
+    }
+
+}
