@@ -1,11 +1,12 @@
 import { DOCUMENT } from '@angular/common';
 import {
   Component,
-  OnInit,
   Renderer2,
   ElementRef,
   HostListener,
   Inject,
+  ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
@@ -16,17 +17,18 @@ import { RouterModule } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit {
-  ngOnInit(): void {
-    // Handle window load event
-    this.updateBackgroundColor();
-  }
+export class HeaderComponent implements AfterViewInit {
+  @ViewChild('header') headerDiv!: ElementRef<HTMLDivElement>;
 
   constructor(
     private renderer: Renderer2,
-    private el: ElementRef,
     @Inject(DOCUMENT) private document: Document
   ) {}
+
+  ngAfterViewInit(): void {
+    // Handle window load event
+    this.updateBackgroundColor();
+  }
 
   /**
    * On scroll event
@@ -40,7 +42,7 @@ export class HeaderComponent implements OnInit {
    * Update the background color of the component
    */
   private updateBackgroundColor() {
-    const div = this.el.nativeElement.querySelector('.header');
+    const div = this.headerDiv.nativeElement;
     const scrollPosition =
       this.document.documentElement.scrollTop ||
       this.document.body.scrollTop ||
