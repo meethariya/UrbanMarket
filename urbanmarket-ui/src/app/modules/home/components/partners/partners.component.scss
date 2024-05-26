@@ -3,6 +3,8 @@
 .partners {
     display: flex;
     justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
     @media only screen and (max-width: ($tablet - 1)) {
         flex-direction: column;
     }
@@ -11,7 +13,7 @@
     }
     img{
         align-self: center;
-        height: 100px;
+        height: 80px;
         margin: 0 2rem;
         transition: transform 500ms linear;
         @media only screen and (max-width: $tablet) {
