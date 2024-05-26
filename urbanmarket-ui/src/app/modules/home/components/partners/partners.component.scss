@@ -28,24 +28,24 @@
             transform:scale(1.1);
         }
     }
-}
-.custom-tooltip {
-    .tooltip-inner {
-        background-color: $primary1;
-        font-size: 125%;
-        font-weight: 350;
+    ::ng-deep .custom-tooltip {
+        .tooltip-inner {
+            background-color: $primary1;
+            font-size: 125%;
+            font-weight: 350;
+        }
+        &.bs-tooltip-end .tooltip-arrow::before {
+            border-right-color: $primary1;
+        }
+        &.bs-tooltip-start .tooltip-arrow::before {
+            border-left-color: $primary1;
+        }
+        &.bs-tooltip-top .tooltip-arrow::before {
+            border-top-color: $primary1;
+        }
+        &.bs-tooltip-bottom .tooltip-arrow::before {
+            border-bottom-color: $primary1;
+        }
+    
     }
-    &.bs-tooltip-end .tooltip-arrow::before {
-        border-right-color: $primary1;
-    }
-    &.bs-tooltip-start .tooltip-arrow::before {
-        border-left-color: $primary1;
-    }
-    &.bs-tooltip-top .tooltip-arrow::before {
-        border-top-color: $primary1;
-    }
-    &.bs-tooltip-bottom .tooltip-arrow::before {
-        border-bottom-color: $primary1;
-    }
-
 }
