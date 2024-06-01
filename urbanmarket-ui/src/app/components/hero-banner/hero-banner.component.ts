@@ -59,8 +59,8 @@ export class HeroBannerComponent {
     arrows: false,
     dots: false,
     infinte: true,
-    // autoplay: true,
-    // autoplaySpeed: 3000,
+    autoplay: true,
+    autoplaySpeed: 3000,
     pauseOnHover: false,
     zindex: 0
   };

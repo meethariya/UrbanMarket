@@ -8,12 +8,13 @@ import { PartnersComponent } from './components/partners/partners.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { BlockComponent } from './components/block/block.component';
 import { HeroBannerComponent } from '../../components/hero-banner/hero-banner.component';
+import { OurServicesComponent } from './components/our-services/our-services.component';
 
 /**
  * Module for home pages such as /home, /about, /contact, /auth, etc.
  */
 @NgModule({
-  declarations: [HomeComponent, AboutComponent, PartnersComponent, BlockComponent],
+  declarations: [HomeComponent, AboutComponent, PartnersComponent, BlockComponent, OurServicesComponent],
   imports: [CommonModule, HomeRoutingModule, NgbTooltipModule, HeroBannerComponent],
 })
 export class HomeModule {}

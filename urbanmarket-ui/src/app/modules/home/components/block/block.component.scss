@@ -2,8 +2,6 @@
 
 .block-container{
     display: grid;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
     overflow-x: hidden;
     @media only screen and (min-width: $tablet) {
         grid-template-columns: 1fr 1fr;

@@ -1,0 +1,37 @@
+@import "../../../../variables.scss";
+
+.our-services {
+    display: flex;
+    text-align: center;
+    .service-heading {
+        width: 100%;
+        margin-bottom: 2.5rem;
+    }
+    .service-card {
+        .service-title {
+            margin: 1rem auto;
+        }
+        .service-description {
+            color: rgba(var(--bs-secondary-rgb), 1);
+        }
+        .service-icon {
+            fill: $primary2;
+            transition: scale 0.5s ease-in-out, fill 0.5s ease-in-out;
+            &.truck {
+                scale: 1.4;
+            }
+        }
+        &:hover {
+            .service-icon{
+                scale: 1.2;
+                fill: $accent1;
+                &.truck{
+                    scale: 1.6;
+                }
+            }
+        }
+        &:not(:last-child){
+            margin-bottom: 1.5rem;
+        }
+    }
+}
