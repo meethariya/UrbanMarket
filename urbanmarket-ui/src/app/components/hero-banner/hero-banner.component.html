@@ -1,0 +1,20 @@
+<div class="hero-banner">
+  <ngx-slick-carousel
+    class="carousel"
+    #slickModal="slick-carousel"
+    [config]="slideConfig"
+  >
+    <div *ngFor="let slide of slides">
+        <app-hero-banner-slide      
+        ngxSlickItem
+        [title]="slide.title"
+        [subtitle]="slide.subtitle"
+        [description]="slide.description"
+        [buttonText]="slide.buttonText"
+        [image]="slide.image"
+        [backgroundColor]="slide.backgroundColor"
+        [color]="slide.color"
+        ></app-hero-banner-slide>
+    </div>
+  </ngx-slick-carousel>
+</div>

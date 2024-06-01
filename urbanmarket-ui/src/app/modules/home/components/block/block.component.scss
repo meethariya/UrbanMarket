@@ -99,6 +99,11 @@
                     width: 40%;
                 }
             }
+            @media only screen and (max-width: $mobile) {
+                .block-button {
+                    width: 50%;
+                }
+            }
         }
         &:first-child .block-details{
             height: 30%;
