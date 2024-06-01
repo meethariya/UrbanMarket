@@ -1,1 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --fs-l: clamp(3rem, calc(4.5vw + 1rem), 5rem);
+    --fs-m: clamp(2rem, calc(3.5vw + 1rem), 4rem);
+    --fs-s: clamp(1rem, calc(2.5vw + 1rem), 3rem);
+}

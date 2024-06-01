@@ -9,12 +9,8 @@
     width: 50%;
     align-self: center;
     .title {
-      font-size: 4.5rem;
-      line-height: 4.5rem;
-      @media only screen and (max-width: $mobile){
-        font-size: 3.5rem;
-        line-height: 3.5rem;
-      }
+      font-size: var(--fs-l);
+      line-height: var(--fs-l);
     }
     .hero-button {
       padding: 0.8rem 2.5rem;
