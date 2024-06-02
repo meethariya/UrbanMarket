@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { HeroBannerSlideComponent } from '../hero-banner-slide/hero-banner-slide.component';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,8 @@ import { CommonModule } from '@angular/common';
   templateUrl: './hero-banner.component.html',
   styleUrl: './hero-banner.component.scss',
 })
-export class HeroBannerComponent {
+export class HeroBannerComponent implements AfterViewInit {
+  @ViewChild('progressBar') progressBar!: ElementRef<HTMLDivElement>;
   slides = [
     {
       title: 'Inspire Your Mind',
@@ -65,7 +66,17 @@ export class HeroBannerComponent {
     zindex: 0
   };
 
-  trackBySlideTitle(index: number, slide: any): string {
-    return slide.title;
+  constructor(private renderer: Renderer2){}
+  ngAfterViewInit(): void {
+    this.upadateProgressBar(0);
+  }
+
+  beforeChange(e:any) {
+    this.upadateProgressBar(e.nextSlide);
+  }
+
+  upadateProgressBar(nextSlide:number) {
+    const div = this.progressBar.nativeElement;
+    this.renderer.setStyle(div, "width", `${(nextSlide+1)*100/this.slides.length}%`);
   }
 }
