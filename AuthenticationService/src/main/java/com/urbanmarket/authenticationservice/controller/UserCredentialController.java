@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.urbanmarket.authenticationservice.dto.JwtTokenDto;
 import com.urbanmarket.authenticationservice.dto.RequestUserCredentialDto;
 import com.urbanmarket.authenticationservice.dto.ResponseUserCredentialDto;
 import com.urbanmarket.authenticationservice.service.UserCredentialService;
@@ -77,8 +79,9 @@ public class UserCredentialController {
 	 * @return token
 	 * @throws UserCredentialNotFoundException
 	 */
-	@GetMapping("/generateToken")
-	public ResponseEntity<String> generateToken(@AuthenticationPrincipal OAuth2User principal, Authentication auth) {
+	@RequestMapping(method = { RequestMethod.GET, RequestMethod.POST }, path = "/generateToken")
+	public ResponseEntity<JwtTokenDto> generateToken(@AuthenticationPrincipal OAuth2User principal,
+			Authentication auth) {
 		// validate if the user trying to generate token has valid credentials.
 		return new ResponseEntity<>(credentialService.generateToken(principal, auth), HttpStatus.CREATED);
 	}

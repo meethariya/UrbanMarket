@@ -66,11 +66,12 @@ public class UserService {
 	 * credential in authentication service
 	 * 
 	 * @param customerDto
+	 * @return customerId
 	 */
-	public void createCustomer(RequestCustomerDto customerDto) {
+	public Long createCustomer(RequestCustomerDto customerDto) {
 		log.info("USERSERVICE: Create customer @PORT: " + port);
-
-		customerRepository.save(requestToModel(customerDto));
+		customerDto.setGender(Character.toUpperCase(customerDto.getGender()));
+		Customer customer = customerRepository.save(requestToModel(customerDto));
 
 		if (customerDto.getPassword() != null) {
 			RequestUserCredentialDto credentialDto = RequestUserCredentialDto.builder().email(customerDto.getEmail())
@@ -78,6 +79,7 @@ public class UserService {
 
 			authenticationClient.saveUser(credentialDto);
 		}
+		return customer.getId();
 	}
 
 	/**

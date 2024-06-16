@@ -1,0 +1,110 @@
+@import "../../../../variables.scss";
+
+.register {
+    min-height: 100vh;
+    width: 100vw;
+    background-color: $secondary3;
+    margin-top: 0;
+    overflow: clip visible;
+    .registration-form {
+        padding-top: 80px;
+        position: relative;
+        .register-form-slide{
+            input[type=number]::-webkit-inner-spin-button, 
+            input[type=number]::-webkit-outer-spin-button { 
+                -webkit-appearance: none; 
+                margin: 0; 
+            }
+            @media only screen and (min-width: $mobile) {
+                padding: 3rem 5rem 5rem;
+            }
+            @media only screen and (max-width:$mobile) {
+                padding: 3rem;
+            }
+            select, input:not([type=radio]){
+                background-color: transparent;
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                border-bottom: 2px solid var(--bs-body-color);
+                border-radius: 0;
+                box-shadow: none;
+                &:focus{
+                    border-bottom-color: $primary3;
+                }
+                &:focus ~ label, &:not(:placeholder-shown) ~ label, &:-webkit-autofill ~ label {
+                    transform: scale(.85) translateY(-.5rem) translateX(0.5rem);
+                } 
+                &.is-invalid{
+                    border-bottom-color: var(--bs-form-invalid-color);
+                }
+                &.is-valid{
+                    border-bottom-color: var(--bs-form-valid-border-color);
+                }
+                &:required ~ label:after {
+                    content:" *";
+                    color: red;
+                    background-color: unset;
+                }
+                &:disabled{
+                    opacity: 0.7;
+                }
+            }
+            .button-col {
+                display: flex;
+                justify-content: center;
+                align-items: end;
+                .previous svg{
+                    rotate: 180deg;
+                }
+            }
+        }
+    }
+    .progress-wrapper {
+        height: 3rem;
+        @media only screen and (min-width: $mobile) {
+            width: 40%;
+            margin: 2rem auto 1rem auto;
+            padding: 1rem;
+        }
+        @media only screen and (min-width: $mobile) and (max-width:$desktop) {
+            width: 60%;
+        }
+        @media only screen and (max-width:$mobile) {
+            width: 100%;
+            background-color: $primary3;
+            position: sticky;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem;
+        }
+        .register-progress {
+            @media only screen and (min-width: $mobile) {
+                width: 100%;
+            }
+            @media only screen and (max-width:$mobile) {
+                width: 70%;
+            }
+            height: 8px;
+            background-color: $secondary2;
+            opacity: 0.5;
+            ::ng-deep .progress-bar {
+                width: 33%;
+                background-color: $black;
+                opacity: 1;
+            }
+        }
+        .progress-message {
+            text-align: center;
+            font-weight: 300;
+            @media only screen and (max-width: $mobile){
+                font-size: 0.8rem;
+                color: $white;
+                margin-bottom: 0;
+            }
+        }
+    }
+}

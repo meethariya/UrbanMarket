@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import com.urbanmarket.authenticationservice.dto.JwtTokenDto;
 import com.urbanmarket.authenticationservice.dto.RequestUserCredentialDto;
 import com.urbanmarket.authenticationservice.dto.ResponseUserCredentialDto;
 import com.urbanmarket.authenticationservice.exception.CredentialNotFoundException;
@@ -131,19 +132,20 @@ public class UserCredentialService implements UserDetailsService {
 	 * @param auth      UserCred by spring authentication
 	 * @return Token
 	 */
-	public String generateToken(OAuth2User principal, Authentication auth) {
+	public JwtTokenDto generateToken(OAuth2User principal, Authentication auth) {
 		log.info("AUTHENTICATIONSERVICE: Generate token @PORT: " + port);
 
 		String role = Role.CUSTOMER.name();
 		String email;
 		if (principal != null) {
 			email = (String) principal.getAttribute("email");
+			
 		} else {
 			email = auth.getName();
 			role = auth.getAuthorities().iterator().next().toString();
 		}
 
-		return createToken(email, role);
+		return JwtTokenDto.builder().token(createToken(email, role)).build();
 	}
 
 	/**

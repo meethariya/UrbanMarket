@@ -1,0 +1,301 @@
+<section class="register">
+    <form class="container registration-form needs-validation"
+    [formGroup]="registerForm"
+    (ngSubmit)="register()"
+    novalidate>
+        <h1 class="text-center">Register</h1>
+        <ngx-slick-carousel
+            class="carousel"
+            #slickModal="slick-carousel"
+            [config]="slideConfig"
+            (beforeChange)="beforeChange($event)"
+        >
+            <div ngxSlickItem class="container register-form-slide">
+                <h2 class="slide-title">User Details</h2>
+                <div class="row mt-2 g-3">
+                    <div class="col-md-4 form-floating">
+                        <input type="text" id="firstName" class="form-control" placeholder="firstname" formControlName="firstName"
+                            [ngClass]="f.firstName.touched? f.firstName.invalid? 'is-invalid': 'is-valid': '' " required>
+                        <label for="firstName" class="form-label">First Name</label>
+                        <div *ngIf="f.firstName.errors?.['required']" class="invalid-feedback">
+                            First Name is required.
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-floating">
+                        <input type="text" class="form-control" id="lastname" placeholder="lastname" formControlName="lastName"
+                            [ngClass]="f.lastName.touched? f.lastName.invalid? 'is-invalid': 'is-valid': '' " required>
+                        <label for="lastname" class="form-label">Last Name</label>
+                        <div *ngIf="f.lastName.errors?.['required']" class="invalid-feedback">
+                            Last Name is required.
+                        </div>
+                    </div>
+                    <!-- <div class="d-none d-md-block col-md-4"></div> -->
+                    <div class="col-11 col-md-3 form-floating">
+                        <input type="text" class="form-control" id="dob" formControlName="dob" autocomplete="bday" placeholder="" [maxDate]="maxDate" [minDate]="minDate" 
+                        (click)="d.toggle()" [ngClass]="f.dob.touched? f.dob.invalid? 'is-invalid': 'is-valid': '' " ngbDatepicker #d="ngbDatepicker" [placement]="'bottom'" required>
+                        <label for="dob" class="form-label">Date of birth</label>
+                        <div *ngIf="f.dob.errors?.['required']" class="invalid-feedback">
+                            Date of birth is required.
+                        </div>
+                    </div>
+                    <div class="col-1 button-col">
+                        <svg (click)="d.toggle()" width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 10V7C20 5.89543 19.1046 5 18 5H6C4.89543 5 4 5.89543 4 7V10M20 10V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V10M20 10H4M8 3V7M16 3V7" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+                            <rect x="6" y="12" width="3" height="3" rx="0.5" fill="#000000"/>
+                            <rect x="10.5" y="12" width="3" height="3" rx="0.5" fill="#000000"/>
+                            <rect x="15" y="12" width="3" height="3" rx="0.5" fill="#000000"/>
+                        </svg>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-floating">
+                            <input type="tel" class="form-control" id="phone" pattern="[6-9]\d{9}" placeholder="" autocomplete="tel" 
+                                formControlName="phone" [ngClass]="f.phone.touched? f.phone.invalid? 'is-invalid': 'is-valid': '' " required>
+                            <label for="phone" class="form-label">Phone</label>
+                            <div *ngIf="f.phone.errors?.['required']" class="invalid-feedback">
+                                Phone number is required.
+                            </div>
+                            <div *ngIf="f.phone.errors?.['pattern']" class="invalid-feedback">
+                                Please enter a valid phone number.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-none d-md-block col-md-9"></div>
+                    <div class="col-md-3">
+                        <label for="male" class="d-block form-label">Gender</label>
+                        <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input" type="radio" name="gender" id="male" value="m" formControlName="gender" checked>
+                            <label class="form-check-label" for="male">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input" type="radio" name="gender" id="female" value="f" formControlName="gender">
+                            <label class="form-check-label" for="female">Female</label>
+                        </div>
+                        <div class="form-check form-check-inline mt-1">
+                            <input class="form-check-input" type="radio" name="gender" id="other" value="o" formControlName="gender">
+                            <label class="form-check-label" for="other">Other</label>
+                        </div>
+                    </div>
+                    <div class="col-5 button-col">
+                        <div (click)="goToNextSlide('slide1')" class="btn btn-success next">
+                            <span class="pe-3">Next</span>
+                            <svg fill="#FFFFFF" height="21px" width="30px" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 330 330" xml:space="preserve">
+                            <path id="XMLID_27_" d="M15,180h263.787l-49.394,49.394c-5.858,5.857-5.858,15.355,0,21.213C232.322,253.535,236.161,255,240,255
+                                s7.678-1.465,10.606-4.394l75-75c5.858-5.857,5.858-15.355,0-21.213l-75-75c-5.857-5.857-15.355-5.857-21.213,0
+                                c-5.858,5.857-5.858,15.355,0,21.213L278.787,150H15c-8.284,0-15,6.716-15,15S6.716,180,15,180z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="d-none d-md-block col-md-4"></div>
+                </div>
+            </div>
+            <div ngxSlickItem class="container register-form-slide">
+                <h2 class="slide-title">Address Details</h2>
+                <div class="row g-3">
+                    <div class="col-md-2 form-floating">
+                        <input type="text" id="addressType" class="form-control" placeholder="Home" formControlName="addressType" 
+                            [ngClass]="f.addressType.touched? f.addressType.invalid? 'is-invalid': 'is-valid': '' " required>
+                        <label for="addressType" class="form-label">Address type</label>
+                        <div *ngIf="f.addressType.errors?.['required']" class="invalid-feedback">
+                            Address type is required.
+                        </div>
+                    </div>
+                    <div class="col-md-3 form-floating">
+                        <input type="text" id="houseNo" class="form-control" placeholder="A-123" formControlName="houseNo" 
+                            [ngClass]="f.houseNo.touched? f.houseNo.invalid? 'is-invalid': 'is-valid': '' " required>
+                        <label for="houseNo" class="form-label">House no</label>
+                        <div *ngIf="f.houseNo.errors?.['required']" class="invalid-feedback">
+                            House no is required.
+                        </div>
+                        <div *ngIf="f.houseNo.errors?.['maxlength']" class="invalid-feedback">
+                            Max 30 characters
+                        </div>
+                    </div>
+                    <div class="col-md-5 form-floating">
+                        <input type="text" id="addressLine1" class="form-control" placeholder="1234 Main St" formControlName="addressLine1" 
+                            [ngClass]="f.addressLine1.touched? f.addressLine1.invalid? 'is-invalid': 'is-valid': '' " required>
+                        <label for="addressLine1" class="form-label">Address Line 1</label>
+                        <div *ngIf="f.addressLine1.errors?.['required']" class="invalid-feedback">
+                            Address Line 1 is required.
+                        </div>
+                        <div *ngIf="f.addressLine1.errors?.['maxlength']" class="invalid-feedback">
+                            Max 50 characters
+                        </div>
+                    </div>
+                    <div class="col-md-5 form-floating">
+                        <input type="text" id="addressLine2" class="form-control" placeholder="" formControlName="addressLine2"
+                            [ngClass]="f.addressLine2.touched? f.addressLine2.invalid? 'is-invalid': 'is-valid': '' " >
+                        <label for="addressLine2" class="form-label">Address Line 2</label>
+                        <div *ngIf="f.addressLine2.errors?.['maxlength']" class="invalid-feedback">
+                            Max 50 characters
+                        </div>
+                    </div>
+                    <div class="d-none d-md-block col-md-7"></div>
+                    <div class="col-md-4 form-floating">
+                        <input type="text" id="city" class="form-control" placeholder="Delhi" formControlName="city" 
+                            [ngClass]="f.city.touched? f.city.invalid? 'is-invalid': 'is-valid': '' " required>
+                        <label for="city" class="form-label">City</label>
+                        <div *ngIf="f.city.errors?.['required']" class="invalid-feedback">
+                            City is required.
+                        </div>
+                        <div *ngIf="f.city.errors?.['maxlength']" class="invalid-feedback">
+                            Max 30 characters
+                        </div>
+                    </div>
+                    <div class="col-md-4 form-floating">
+                        <select id="state" class="form-select" formControlName="state" autocomplete="address-level1" 
+                            [ngClass]="f.state.touched? f.state.invalid? 'is-invalid': 'is-valid': '' " required>
+                            <option selected disabled>Choose...</option>
+                            <option>Andaman and Nicobar Islands</option>
+                            <option>Andhra Pradesh</option>
+                            <option>Arunachal Pradesh</option>
+                            <option>Assam</option>
+                            <option>Bihar</option>
+                            <option>Chandigarh</option>
+                            <option>Chhattisgarh</option>
+                            <option>Dadra and Nagar Haveli and</option>
+                            <option>Daman & Diu</option>
+                            <option>Delhi</option>
+                            <option>Goa</option>
+                            <option>Gujarat</option>
+                            <option>Haryana</option>
+                            <option>Himachal Pradesh</option>
+                            <option>Jammu & Kashmir</option>
+                            <option>Jharkhand</option>
+                            <option>Karnataka</option>
+                            <option>Kerala</option>
+                            <option>Ladakh</option>
+                            <option>Lakshadweep</option>
+                            <option>Madhya Pradesh</option>
+                            <option>Maharashtra</option>
+                            <option>Manipur</option>
+                            <option>Meghalaya</option>
+                            <option>Mizoram</option>
+                            <option>Nagaland</option>
+                            <option>Odisha</option>
+                            <option>Puducherry</option>
+                            <option>Punjab</option>
+                            <option>Rajasthan</option>
+                            <option>Sikkim</option>
+                            <option>Tamil Nadu</option>
+                            <option>Telangana</option>
+                            <option>Tripura</option>
+                            <option>Uttarakhand</option>
+                            <option>Uttar Pradesh</option>
+                            <option>West Bengal</option>
+                        </select>
+                        <label for="state" class="form-label">State</label>
+                        <div *ngIf="f.state.errors?.['required']" class="invalid-feedback">
+                            State is required.
+                        </div>
+                    </div>
+                    <div class="col-md-2 form-floating">
+                        <input type="number" class="form-control" pattern="[1-9][0-9]{5}" id="pincode" formControlName="pincode"  placeholder=""
+                            [ngClass]="f.pincode.touched? f.pincode.invalid? 'is-invalid': 'is-valid': '' " required>
+                        <label for="pincode" class="form-label">Pincode</label>
+                        <div *ngIf="f.pincode.errors?.['required']" class="invalid-feedback">
+                            Pincode is required.
+                        </div>
+                        <div *ngIf="f.pincode.errors?.['pattern']" class="invalid-feedback">
+                            Enter valid pincode
+                        </div>
+                    </div>
+                    <div class="col-5 button-col">
+                        <div (click)="slickModal.slickPrev()" class="btn btn-secondary previous">
+                            <svg fill="#FFFFFF" height="21px" width="30px" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 330 330" xml:space="preserve">
+                            <path id="XMLID_27_" d="M15,180h263.787l-49.394,49.394c-5.858,5.857-5.858,15.355,0,21.213C232.322,253.535,236.161,255,240,255
+                                s7.678-1.465,10.606-4.394l75-75c5.858-5.857,5.858-15.355,0-21.213l-75-75c-5.857-5.857-15.355-5.857-21.213,0
+                                c-5.858,5.857-5.858,15.355,0,21.213L278.787,150H15c-8.284,0-15,6.716-15,15S6.716,180,15,180z"/>
+                            </svg>
+                            <span class="ps-1">Previous</span>
+                        </div>
+                    </div>
+                    <div class="col-5 button-col">
+                        <div (click)="goToNextSlide('slide2')" class="btn btn-success next">
+                            <span class="pe-3">Next</span>
+                            <svg fill="#FFFFFF" height="21px" width="30px" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 330 330" xml:space="preserve">
+                            <path id="XMLID_27_" d="M15,180h263.787l-49.394,49.394c-5.858,5.857-5.858,15.355,0,21.213C232.322,253.535,236.161,255,240,255
+                                s7.678-1.465,10.606-4.394l75-75c5.858-5.857,5.858-15.355,0-21.213l-75-75c-5.857-5.857-15.355-5.857-21.213,0
+                                c-5.858,5.857-5.858,15.355,0,21.213L278.787,150H15c-8.284,0-15,6.716-15,15S6.716,180,15,180z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ngxSlickItem class="container register-form-slide">
+                <h2 class="slide-title">Login Details</h2>
+                <div class="row g-3">
+                    <div class="col-md-5 form-floating">
+                        <input type="email" class="form-control" id="email" placeholder="" formControlName="email" autocomplete="email"
+                            [ngClass]="f.email.touched? f.email.invalid? 'is-invalid': 'is-valid': '' " required>
+                        <label for="email" class="form-label">Email address</label>
+                        <div *ngIf="f.email.errors?.['required']" class="invalid-feedback">
+                            Email is required.
+                        </div>
+                        <div *ngIf="f.email.errors?.['email']" class="invalid-feedback">
+                            Enter a valid email address
+                        </div>
+                    </div>
+                    <div class="col-md-3 button-col">
+                        <button #otpButton (click)="sendOtp()" class="btn btn-outline-primary px-5" type="button" id="getOtp" [disabled]="this.f.email.invalid">Get OTP</button>
+                    </div>
+                    <div #otpCol class="col-md-2 otp-col form-floating">
+                        <input type="number" class="form-control" pattern="[0-9]{6}" id="otp" placeholder="" formControlName="otp" 
+                            [ngClass]="f.otp.touched? f.otp.invalid? 'is-invalid': 'is-valid': '' " required>
+                        <label for="otp" class="form-label">OTP</label>
+                        <div *ngIf="f.otp.errors?.['required']" class="invalid-feedback">
+                            otp is required.
+                        </div>
+                        <div *ngIf="f.otp.errors?.['pattern']" class="invalid-feedback">
+                            Enter 6 digit OTP
+                        </div>
+                    </div>
+                    <div class="d-none d-md-block col-md-1"></div>
+                    <div class="col-md-5 form-floating">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password"
+                            [ngClass]="f.password.touched? f.password.invalid? 'is-invalid': 'is-valid': '' " required>
+                        <label for="floatingPassword">Password</label>
+                        <div *ngIf="f.password.errors?.['required']" class="invalid-feedback">
+                            Password is required.
+                        </div>
+                        <div *ngIf="f.password.errors?.['minLength']" class="invalid-feedback">
+                            Password minimum length should be 8 characters.
+                        </div>
+                    </div>
+                    <div class="d-none d-md-block col-md-7"></div>
+                    <div class="col-5 button-col">
+                        <div (click)="slickModal.slickPrev()" class="btn btn-secondary previous">
+                            <svg fill="#FFFFFF" height="21px" width="30px" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 330 330" xml:space="preserve">
+                            <path id="XMLID_27_" d="M15,180h263.787l-49.394,49.394c-5.858,5.857-5.858,15.355,0,21.213C232.322,253.535,236.161,255,240,255
+                                s7.678-1.465,10.606-4.394l75-75c5.858-5.857,5.858-15.355,0-21.213l-75-75c-5.857-5.857-15.355-5.857-21.213,0
+                                c-5.858,5.857-5.858,15.355,0,21.213L278.787,150H15c-8.284,0-15,6.716-15,15S6.716,180,15,180z"/>
+                            </svg>
+                            <span class="ps-1">Previous</span>
+                        </div>
+                    </div>
+                    <div class="col-5 button-col">
+                        <button type="submit" class="btn btn-success next" [disabled]="registerForm.invalid">
+                            <span class="pe-3">Register</span>
+                            <svg fill="#FFFFFF" height="21px" width="30px" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 330 330" xml:space="preserve">
+                            <path id="XMLID_27_" d="M15,180h263.787l-49.394,49.394c-5.858,5.857-5.858,15.355,0,21.213C232.322,253.535,236.161,255,240,255
+                                s7.678-1.465,10.606-4.394l75-75c5.858-5.857,5.858-15.355,0-21.213l-75-75c-5.857-5.857-15.355-5.857-21.213,0
+                                c-5.858,5.857-5.858,15.355,0,21.213L278.787,150H15c-8.284,0-15,6.716-15,15S6.716,180,15,180z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ngx-slick-carousel>
+    </form>
+    <div class="progress-wrapper">
+        <!-- <div class="register-progress progress" role="progressbar" aria-label="Hero progress" aria-valuenow="33" aria-valuemin="0" aria-valuemax="100">
+            <div #progressBar class="progress-bar"></div>
+        </div> -->
+        <ngb-progressbar class="register-progress" [value]="progressValue" height="8px"></ngb-progressbar>
+        <p class="progress-message">{{progressMessage}}</p>
+    </div>
+</section>
