@@ -7,8 +7,11 @@ import {
   Inject,
   ViewChild,
   AfterViewInit,
+  inject,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +22,7 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent implements AfterViewInit {
   @ViewChild('header') headerDiv!: ElementRef<HTMLDivElement>;
-
+  private offcanvasService = inject(NgbOffcanvas);
   constructor(
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document
@@ -55,4 +58,8 @@ export class HeaderComponent implements AfterViewInit {
       this.renderer.removeClass(div, 'scrolled');
     }
   }
+
+  openEnd() {
+		this.offcanvasService.open(LoginComponent,{ position: 'end', backdropClass: 'bg-secondary' });
+	}
 }

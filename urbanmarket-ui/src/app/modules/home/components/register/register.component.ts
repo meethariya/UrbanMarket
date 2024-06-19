@@ -16,6 +16,7 @@ import { HttpResponse } from '@angular/common/http';
 import { JwtTokenDto } from '../../../../models/JwtTokenDto';
 import { ToastService } from '../../../../services/toast.service';
 import { Toast } from '../../../../models/Toast';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -96,6 +97,7 @@ export class RegisterComponent implements AfterViewInit {
       Validators.required,
       Validators.minLength(8),
     ]),
+    termConditions: new FormControl(false, [Validators.requiredTrue])
   });
 
   //Toast svgs
@@ -107,7 +109,7 @@ export class RegisterComponent implements AfterViewInit {
    * @param renderer page renderer
    * @param service homeService
    */
-  constructor(private renderer: Renderer2, private service: HomeService) {
+  constructor(private renderer: Renderer2, private service: HomeService, private router: Router) {
     // set min max date for DOB
     const today = new Date();
     const maxDate = new Date(
@@ -378,6 +380,7 @@ export class RegisterComponent implements AfterViewInit {
               const status = response.status;
               const token = response.body?.token;
               if (status === 201 && token) {
+                this.router.navigate(['/']);
                 sessionStorage.setItem('token', token);
                 const toastConfig: Toast = {
                   header: 'Registered',

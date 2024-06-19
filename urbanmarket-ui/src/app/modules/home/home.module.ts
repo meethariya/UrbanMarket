@@ -12,12 +12,14 @@ import { OurServicesComponent } from './components/our-services/our-services.com
 import { RegisterComponent } from './components/register/register.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { TermsServiceComponent } from './components/terms-service/terms-service.component';
 
 /**
  * Module for home pages such as /home, /about, /contact, /auth, etc.
  */
 @NgModule({
-  declarations: [HomeComponent, AboutComponent, PartnersComponent, BlockComponent, OurServicesComponent, RegisterComponent],
+  declarations: [HomeComponent, AboutComponent, PartnersComponent, BlockComponent, OurServicesComponent, RegisterComponent, PrivacyPolicyComponent, TermsServiceComponent],
   imports: [CommonModule, HomeRoutingModule, NgbTooltipModule, HeroBannerComponent, SlickCarouselModule, ReactiveFormsModule, NgbDatepickerModule, NgbProgressbarModule],
 })
 export class HomeModule {}

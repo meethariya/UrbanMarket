@@ -264,7 +264,17 @@
                             Password minimum length should be 8 characters.
                         </div>
                     </div>
-                    <div class="d-none d-md-block col-md-7"></div>
+                    <div class="col-12">
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="termConditions" formControlName="termConditions">
+                            <label class="form-check-label" for="termConditions">
+                                By clicking this you agree to our 
+                                <a href="/terms-service" target="_blank">Terms and Conditions</a>
+                                and 
+                                <a href="/policy" target="_blank">Privacy Policy</a>
+                            </label>
+                        </div>
+                    </div>
                     <div class="col-5 button-col">
                         <div (click)="slickModal.slickPrev()" class="btn btn-secondary previous">
                             <svg fill="#FFFFFF" height="21px" width="30px" xmlns="http://www.w3.org/2000/svg"

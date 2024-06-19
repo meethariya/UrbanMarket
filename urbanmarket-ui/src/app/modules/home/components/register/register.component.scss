@@ -21,7 +21,7 @@
             @media only screen and (max-width:$mobile) {
                 padding: 3rem;
             }
-            select, input:not([type=radio]){
+            select, input:not([type=radio], [type=checkbox]) {
                 background-color: transparent;
                 border-top: none;
                 border-left: none;
