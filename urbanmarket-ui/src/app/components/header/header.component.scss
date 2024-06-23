@@ -21,7 +21,7 @@
             font-size: 30px;
         }
     }
-    .login {
+    .login, .logout {
         cursor: pointer;
     }
     &.not-scrolled{
@@ -44,8 +44,11 @@
     }
     &.scrolled{
         background-color:$primary2;
-        a, .login{
+        a, .login, .logout{
             color: $white;
+        }
+        .logout path{
+            stroke: $white;
         }
     }
     @media only screen and (max-width: ($desktop - 1)) {

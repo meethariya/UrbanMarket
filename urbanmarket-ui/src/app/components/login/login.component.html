@@ -7,7 +7,7 @@
     <form class="mt-5 mb-3" [formGroup]="loginForm" (ngSubmit)="login()" novalidate>
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
-            <input ngbAutofocus type="email" class="form-control" id="email" formControlName="email" autocomplete="email"
+            <input type="email" class="form-control" id="email" formControlName="email" autocomplete="email"
                 [ngClass]="f.email.touched? f.email.invalid? 'is-invalid': 'is-valid': '' " >
             <div *ngIf="f.email.errors?.['required']" class="invalid-feedback">
                 Email is required.

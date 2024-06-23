@@ -17,6 +17,7 @@ import { JwtTokenDto } from '../../../../models/JwtTokenDto';
 import { ToastService } from '../../../../services/toast.service';
 import { Toast } from '../../../../models/Toast';
 import { Router } from '@angular/router';
+import { UtilService } from '../../../../services/util.service';
 
 @Component({
   selector: 'app-register',
@@ -109,7 +110,7 @@ export class RegisterComponent implements AfterViewInit {
    * @param renderer page renderer
    * @param service homeService
    */
-  constructor(private renderer: Renderer2, private service: HomeService, private router: Router) {
+  constructor(private renderer: Renderer2, private service: HomeService, private router: Router, private utilService:UtilService) {
     // set min max date for DOB
     const today = new Date();
     const maxDate = new Date(
@@ -368,30 +369,26 @@ export class RegisterComponent implements AfterViewInit {
       this.service.registerUser(formData).subscribe({
         next: (customerId: number) => {
           // send login request to generate token
-          var loginFormData: FormData = new FormData();
-          loginFormData.set('username', formData.email);
-          loginFormData.set('password', formData.password);
           const basicToken = window.btoa(
             formData.email + ':' + formData.password
           );
-
-          this.service.login(loginFormData, basicToken).subscribe({
+          this.utilService.login(basicToken).subscribe({
             next: (response: HttpResponse<JwtTokenDto>) => {
               const status = response.status;
               const token = response.body?.token;
               if (status === 201 && token) {
                 this.router.navigate(['/']);
-                sessionStorage.setItem('token', token);
+                // this.utilService.setToken(token);
                 const toastConfig: Toast = {
                   header: 'Registered',
-                  body: 'You have successfully registered to our service. Start shopping now!',
+                  body: 'You have successfully registered to our service. Login to start shopping now!',
                   classname: 'text-bg-success',
                   delay: 5000,
                   headerSvg: this.successSvg,
                 };
                 this.toastService.show(toastConfig);
                 // send welcome email
-                this.service.welcomeUser(customerId).subscribe({
+                this.service.welcomeUser(customerId, token).subscribe({
                   next: (nothing: void) => {},
                   error: (err) => {
                     this.showErrorToast(err);

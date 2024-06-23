@@ -5,6 +5,21 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Injectable({ providedIn: 'root' })
 export class ToastService {
   toasts: Toast[] = [];
+  dangerSvg = `
+    <svg width="16px" height="16px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="17" r="1" fill="#000000"/>
+      <path d="M12 10L12 14" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3.44722 18.1056L10.2111 4.57771C10.9482 3.10361 13.0518 3.10362 13.7889 4.57771L20.5528 18.1056C21.2177 19.4354 20.2507 21 18.7639 21H5.23607C3.7493 21 2.78231 19.4354 3.44722 18.1056Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  `;
+  successSvg = `
+    <svg fill="#000000" xmlns="http://www.w3.org/2000/svg" 
+      width="16px" height="16px" viewBox="0 0 52 52" enable-background="new 0 0 52 52" xml:space="preserve">
+      <path d="M26,2C12.7,2,2,12.7,2,26s10.7,24,24,24s24-10.7,24-24S39.3,2,26,2z M39.4,20L24.1,35.5
+        c-0.6,0.6-1.6,0.6-2.2,0L13.5,27c-0.6-0.6-0.6-1.6,0-2.2l2.2-2.2c0.6-0.6,1.6-0.6,2.2,0l4.4,4.5c0.4,0.4,1.1,0.4,1.5,0L35,15.5
+        c0.6-0.6,1.6-0.6,2.2,0l2.2,2.2C40.1,18.3,40.1,19.3,39.4,20z"/>
+    </svg>
+  `;
   constructor(private sanitizer: DomSanitizer) {}
   /**
    * Shows a toast message with the given configuration.
@@ -57,5 +72,16 @@ export class ToastService {
    */
   clear() {
     this.toasts.splice(0, this.toasts.length);
+  }
+
+  showErrorToast(err: any) {
+    const toastConfig: Toast = {
+      header: err.error.title,
+      body: err.error.message,
+      classname: 'text-bg-danger',
+      delay: 5000,
+      headerSvg: this.dangerSvg,
+    };
+    this.show(toastConfig);
   }
 }

@@ -43,7 +43,7 @@ import { ToastService } from '../../services/toast.service';
     bottom: 0;
     right: 0;
     padding: 2rem;
-    z-index: 1000;
+    z-index: 1050;
     .toast-message-body {
       display: -webkit-box;
       -webkit-line-clamp: 3;

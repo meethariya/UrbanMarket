@@ -41,17 +41,8 @@ export class HomeService {
    * @param customerId id of customer to whom email has to be sent
    * @returns void
    */
-  welcomeUser(customerId: number): Observable<void> {
-    return this.http.get<void>(this.backend + '/api/email/welcome/'+customerId);
+  welcomeUser(customerId: number, token: string): Observable<void> {
+    return this.http.get<void>(this.backend + '/api/email/welcome/'+customerId,{ headers: { Authorization: 'Bearer ' + token }});
   }
 
-  /**
-   * Generates token from backend
-   * @param formData email and password
-   * @param token basic email password token
-   * @returns auth token
-   */
-  login(formData: FormData, token: string): Observable<HttpResponse<JwtTokenDto>> {
-    return this.http.post<JwtTokenDto>(this.backend + '/login', formData, {headers: {"Authorization": "Basic "+token}, observe: 'response'});
-  }
 }
