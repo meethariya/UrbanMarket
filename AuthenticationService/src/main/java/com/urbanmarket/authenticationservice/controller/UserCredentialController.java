@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -79,7 +78,7 @@ public class UserCredentialController {
 	 * @return token
 	 * @throws UserCredentialNotFoundException
 	 */
-	@RequestMapping(method = { RequestMethod.GET, RequestMethod.POST }, path = "/generateToken")
+	@GetMapping("/generateToken")
 	public ResponseEntity<JwtTokenDto> generateToken(@AuthenticationPrincipal OAuth2User principal,
 			Authentication auth) {
 		// validate if the user trying to generate token has valid credentials.

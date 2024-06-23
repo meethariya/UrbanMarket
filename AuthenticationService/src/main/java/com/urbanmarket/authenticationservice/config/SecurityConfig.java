@@ -16,10 +16,11 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -33,8 +34,9 @@ public class SecurityConfig {
 
 	@Value("${angular}")
 	private String angular;
-	
+
 	private static final String SUCCESSURL = "/api/authentication/generateToken";
+
 	/**
 	 * Filter chain for all requests for authentication service.
 	 * 
@@ -45,11 +47,11 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(
-				requests -> requests.requestMatchers(new AntPathRequestMatcher(SUCCESSURL))
-						.authenticated().requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-				.csrf(c -> c.disable()).cors(withDefaults())
-				.formLogin(s -> s.successForwardUrl(SUCCESSURL).permitAll())
-				.oauth2Login(s -> s.defaultSuccessUrl(SUCCESSURL).permitAll());
+				requests -> requests.requestMatchers(SUCCESSURL).authenticated().requestMatchers("/**").permitAll())
+				.httpBasic(withDefaults()).cors(withDefaults())
+				.formLogin(login -> login.successForwardUrl(SUCCESSURL).permitAll())
+				.oauth2Login(login -> login.defaultSuccessUrl(SUCCESSURL).permitAll())
+				.logout(LogoutConfigurer::permitAll).csrf(AbstractHttpConfigurer::disable);
 		return http.build();
 	}
 
