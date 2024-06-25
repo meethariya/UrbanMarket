@@ -13,7 +13,7 @@ import {
 import { RouterModule } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from '../login/login.component';
-import { UtilService } from '../../services/util.service';
+import { HelperService } from '../../services/helper.service';
 import { ToastService } from '../../services/toast.service';
 import { Toast } from '../../models/Toast';
 
@@ -33,7 +33,7 @@ export class HeaderComponent implements AfterViewInit, OnInit {
   constructor(
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document,
-    private service: UtilService
+    private service: HelperService
   ) {}
   ngOnInit(): void {
     // set login status according to token availablity

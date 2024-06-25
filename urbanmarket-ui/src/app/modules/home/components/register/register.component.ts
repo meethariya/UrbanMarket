@@ -17,7 +17,7 @@ import { JwtTokenDto } from '../../../../models/JwtTokenDto';
 import { ToastService } from '../../../../services/toast.service';
 import { Toast } from '../../../../models/Toast';
 import { Router } from '@angular/router';
-import { UtilService } from '../../../../services/util.service';
+import { HelperService } from '../../../../services/helper.service';
 
 @Component({
   selector: 'app-register',
@@ -110,7 +110,7 @@ export class RegisterComponent implements AfterViewInit {
    * @param renderer page renderer
    * @param service homeService
    */
-  constructor(private renderer: Renderer2, private service: HomeService, private router: Router, private utilService:UtilService) {
+  constructor(private renderer: Renderer2, private service: HomeService, private router: Router, private utilService:HelperService) {
     // set min max date for DOB
     const today = new Date();
     const maxDate = new Date(

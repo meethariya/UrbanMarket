@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { NgbActiveOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { UtilService } from '../../services/util.service';
+import { HelperService } from '../../services/helper.service';
 import { HttpResponse } from '@angular/common/http';
 import { JwtTokenDto } from '../../models/JwtTokenDto';
 import { ToastService } from '../../services/toast.service';
@@ -25,7 +25,7 @@ export class LoginComponent {
   activeOffcanvas = inject(NgbActiveOffcanvas);
   toastService = inject(ToastService);
   @Output() isLoginEmitter : EventEmitter<Boolean> = new EventEmitter();
-  constructor(private service: UtilService, private router: Router) {}
+  constructor(private service: HelperService, private router: Router) {}
 
   // Login form
   loginForm = new FormGroup({
