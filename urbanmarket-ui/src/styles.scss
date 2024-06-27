@@ -1,8 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'Montserrat';
+    src: url(assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf) format('truetype'), url(assets/fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf) format('truetype');
+    font-display: swap;
+}
 :root {
     --fs-l: clamp(3rem, calc(4.5vw + 1rem), 5rem);
     --fs-m: clamp(2rem, calc(3.5vw + 1rem), 4rem);
     --fs-s: clamp(1rem, calc(2.5vw + 1rem), 3rem);
+}
+html body{
+    font-family: "Montserrat", sans-serif;
 }
 section{
     margin-top: 3rem;
